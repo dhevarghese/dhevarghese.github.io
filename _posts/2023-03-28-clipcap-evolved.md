@@ -109,7 +109,7 @@ The authors of ClipCap propose a simple yet effective technique to generate capt
 
 Their second approach demonstrate that training the mapping network alone can yield competent captioning results while keeping CLIP and the LM frozen.
 
-![Clipcap](https://github.com/dkopi/clipcap-evolved/blob/main/images/Clipcap.png)
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/Clipcap.png?raw=true" title="Clipcap" class="img-fluid rounded z-depth-1" %}
 
 
 At the time of their publication, this method achieved comparable performance to State-Of-The-Art approaches on challenging datasets such as Conceptual Captions and nocaps, while being simpler, faster, and lighter. However, it is worth noting a couple of potential weaknesses. Firstly, they failed to explore the utility of unpooled visual representations, which may affect its ability to capture fine-grained visual details; and the limited evaluation with different language models, which may leave room for further exploration and analysis. This is exactly what inspired us to explore and pursue this research direction.
@@ -127,7 +127,7 @@ Contrastive Language Pre-Training (CLIP) is an efficient method of learning  fro
 #### Architecture
 CLIP architecture consists of two main components, a text encoder, and an image encoder. These two encoders are jointly trained using a contrastive learning approach to predict the correct pairings of a batch of training (image, text) examples. The CLIP model encodes textual and visual information into a multimodal embedding space, with an aim to increase the cosine similarity score of images and text representations. 
 
-![architecture_1](https://github.com/dkopi/clipcap-evolved/blob/main/images/architecture_1.jpeg)
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/architecture_1.jpeg?raw=true" title="architecture_1" class="img-fluid rounded z-depth-1" %}
 
 
 The original clip implementation uses a transformer as its text encoder. For the image encoder, the authors propose two separate architectures, one with a [ResNet](https://arxiv.org/abs/1512.03385), and the other with a [Vision Transformer (ViT)](https://arxiv.org/abs/2010.11929).
@@ -135,7 +135,7 @@ The original clip implementation uses a transformer as its text encoder. For the
 ### Vision Transformer
 The Vision Transformer (ViT) model architecture was introduced in the paper titled “An Image is Worth 16*16 Words: Transformers for Image Recognition at Scale”, where the authors utilise the transformer architecture for image processing tasks. The proposed architecture involves processing images by splitting an image into fixed size patches, linearly embedding them along with positional embeddings, and then inputting the resultant sequence of vectors to a standard transformer architecture.
 
-![architecture_2](https://github.com/dkopi/clipcap-evolved/blob/main/images/architecture_2.jpeg)
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/architecture_2.jpeg?raw=true" title="architecture_2" class="img-fluid rounded z-depth-1" %}
 
 
 The results of the experiments demonstrate that the ViT encoder architecture performs better than the ResNet based encoder architecture on a wide range of datasets. Additionally, the baseline ClipCap implementation uses the CLIP-ViT as its image encoder.
@@ -183,18 +183,22 @@ A common practice in the field of NLP is the usage of pretrained models and adap
 
 Low Rank Adaptation (LoRA) is a technique introduced by Hu et al. in their paper as efficient fine tuning technique that can greatly reduce the number of trainable parameters for downstream tasks, by freezing the pre-trained model weights and injecting trainable rank decomposition matrices into each layer of the Transformer architecture. In particular, LoRA use tensor-train decomposition of the weight matrix and decompose it into two "update matrices".
 
-![lora](https://github.com/dkopi/clipcap-evolved/blob/main/images/lora.png)
+<div class="row justify-content-sm-center">
+  <div class="col-sm-4 mt-3 mt-md-0">
+    {% include figure.liquid path="https://github.com/dkopi/clipcap-evolved/blob/main/images/lora.png?raw=true" title="lora" class="img-fluid rounded z-depth-1" %}
+  </div>
+</div>
 
-For any model layer that can be expressed as a matrix multiplication of the form $h=W_0x$, it can be reparametrised as follows 
+For any model layer that can be expressed as a matrix multiplication of the form $$h=W_0x$$, it can be reparametrised as follows 
 
-$h = W_0+\frac{\alpha}{r}BAx$
+$$h = W_0+\frac{\alpha}{r}BAx$$
 
-where, $A\in\mathbb{R}^{r \times k}$ and $B\in\mathbb{R}^{d \times r}$ and *r* is the low dimensional rank of the decomposition. 
+where, $$A\in\mathbb{R}^{r \times k}$$ and $$B\in\mathbb{R}^{d \times r}$$ and *r* is the low dimensional rank of the decomposition. 
 
 ##### Advantages of LoRA
 
-- Since the original pretrained language model is frozen, training using LoRA is more efficient, as we do not need to calculate the gradients or maintain optimizer states for most parameters, and calculate only for the injected much smaller lower rank matrices. The authors note that for a large Transformer trained with Adam, we reduce that VRAM usage by up to 2/3 if r <<  $d_{model}$ as we do not need to store the optimizer states for the frozen parameters
-- Adapter layers often introduce inference latency, by extending model depth or reducing the model’s usable sequence length. LoRA overcomes this issue by proposing that when deploying models in production we can explicitly compute $W = W_0+BA$ and store the weight matrix and perform inference as usual. When the pretrained LM needs to be adapted to a new downstream task, the original $W_0$ can be recovered by subtracting BA and a new B’A’ can be summed for the new task
+- Since the original pretrained language model is frozen, training using LoRA is more efficient, as we do not need to calculate the gradients or maintain optimizer states for most parameters, and calculate only for the injected much smaller lower rank matrices. The authors note that for a large Transformer trained with Adam, we reduce that VRAM usage by up to 2/3 if r <<  $$d_{model}$$ as we do not need to store the optimizer states for the frozen parameters
+- Adapter layers often introduce inference latency, by extending model depth or reducing the model’s usable sequence length. LoRA overcomes this issue by proposing that when deploying models in production we can explicitly compute $$W = W_0+BA$$ and store the weight matrix and perform inference as usual. When the pretrained LM needs to be adapted to a new downstream task, the original $$W_0$$ can be recovered by subtracting BA and a new B’A’ can be summed for the new task
 - LoRA is orthogonal to many prior methods and can be combined with many of them, such as prefix-tuning.
 
 
@@ -208,11 +212,14 @@ We begin by replicating the ClipCap architectures to establish baseline performa
  
 ##### ClipCap, The MLP Approach
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-![baseline_1](https://github.com/dkopi/clipcap-evolved/blob/main/images/baseline_1.png)
+<!-- ![baseline_1](https://github.com/dkopi/clipcap-evolved/blob/main/images/baseline_1.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/baseline_1.png?raw=true" title="baseline_1" class="img-fluid rounded z-depth-1" %}
 
 ##### ClipCap, The Transformer Approach
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-![baseline_2](https://github.com/dkopi/clipcap-evolved/blob/main/images/Baseline_2.png)
+<!-- ![baseline_2](https://github.com/dkopi/clipcap-evolved/blob/main/images/Baseline_2.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/Baseline_2.png?raw=true" title="baseline_2" class="img-fluid rounded z-depth-1" %}
+
 
 
 ### Language Model Architecture Matters
@@ -222,18 +229,20 @@ ClipCap utilized GPT2, a decoder-only transformer, to generate tokens autoregres
 Based on this observation, we explore the use of encoder-decoder models as a promising direction. This resulted in our incorporation of the Flan-T5 model into the ClipCap architecture. The decision to integrate Flan-T5 into ClipCap was motivated by its versatility in handling a multitude of tasks, each one encoded by the encoder. This presents a unique opportunity for improving the caption prediction process. By feeding a prefixed sentence to the encoder block, we are priming the decoder, theoretically enabling it to predict captions more effectively. This is predicated on the hypothesis that the encoder's capacity to embed different tasks will substantially enhance the decoder's proficiency in generating precise and pertinent captions.
 
 #### Using FLAN-T5 as the LM
-![CLIP-VIT/32 + MLP + FLAN-T5](https://github.com/dkopi/clipcap-evolved/blob/main/images/Flant5_1.png)
+<!-- ![CLIP-VIT/32 + MLP + FLAN-T5](https://github.com/dkopi/clipcap-evolved/blob/main/images/Flant5_1.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/Flant5_1.png?raw=true" title="CLIP-VIT/32 + MLP + FLAN-T5" class="img-fluid rounded z-depth-1" %}
 
 #### Using FLAN-T5 Decoder Only
 
 Another approach in our exploration involves utilising only the decoder component of the FLAN-T5 model. In this variant, we decided to bypass the encoder and feed the inputs from the previous components directly to the pre-trained cross attention layers of the decoder. We tested this variant with the two mappers: MLP and Transformer.
 
 ##### FLAN-T5 Decoder, The MLP Approach
-![CLIP-VIT/32 + MLP + FLAN-T5 Decoder Only](https://github.com/dkopi/clipcap-evolved/blob/main/images/flant5_2.png)
+<!-- ![CLIP-VIT/32 + MLP + FLAN-T5 Decoder Only](https://github.com/dkopi/clipcap-evolved/blob/main/images/flant5_2.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/flant5_2.png?raw=true" title="CLIP-VIT/32 + MLP + FLAN-T5 Decoder Only" class="img-fluid rounded z-depth-1" %}
 
 ##### FLAN-T5 Decoder, The Transformer Approach
-![CLIP-VIT/32 + Transformer + FLAN-T5 Decoder Only](https://github.com/dkopi/clipcap-evolved/blob/main/images/flant5_2.png)
-
+<!-- ![CLIP-VIT/32 + Transformer + FLAN-T5 Decoder Only](https://github.com/dkopi/clipcap-evolved/blob/main/images/flant5_2.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/flant5_2.png?raw=true" title="CLIP-VIT/32 + Transformer + FLAN-T5 Decoder Only" class="img-fluid rounded z-depth-1" %}
 
 ### Beyond Pooled Features
 
@@ -241,7 +250,8 @@ In order to enhance the utilization of visual representations in our models, we 
 
 To effectively incorporate these unpooled visual tokens into our models, we take steps to align the representation spaces of the visual and language models. This involves passing the visual tokens through a Multilayer Perceptron with shared weights for all tokens. Subsequently, these refined tokens are fed into the language model. For GPT2 and Flan-T5, they act as the prefix, while for the Flan-T5 decoder, they serve as the entire conditioning signal. We anticipate that this tweak will result in improved performance.
 
-![CLIP-Projections](https://github.com/dkopi/clipcap-evolved/blob/main/images/unpooled.png)
+<!-- ![CLIP-Projections](https://github.com/dkopi/clipcap-evolved/blob/main/images/unpooled.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/unpooled.png?raw=true" title="CLIP-Projections" class="img-fluid rounded z-depth-1" %}
 
 The shared MLP projects the visual tokens that are not pooled. This means we utilise all the tokens that CLIP-ViT outputs. These tokens, after projection, are directly mapped to the LM.
 
@@ -296,7 +306,7 @@ Our methodology involved running each model through 10 training epochs. To captu
 
 ### Datasets
 
-Choosing good datasets is a critical step for training and evaluating. The notion of "good dataset" in the context of visual-language tasks relies mainly on the diversity of context, topics and entities that the image and captions are covering. Following the original paper, we used the two datasets, COCO and NOCAPS, both considered state-of-the-art datasets for image captioning modelling (.
+Choosing good datasets is a critical step for training and evaluating. The notion of "good dataset" in the context of visual-language tasks relies mainly on the diversity of context, topics and entities that the image and captions are covering. Following the original paper, we used the two datasets, COCO and NOCAPS, both considered state-of-the-art datasets for image captioning modelling.
 
 Similar to ClipCap work, we use COCO dataset to train models, and both, COCO and nocaps, to evaluate them. The authors of the ClipCap paper also train and evaluate their models on the large [Conceptual Caption (CoCa)](https://aclanthology.org/P18-1238/), separately from the model trained on COCO. However, due to the substantial computational resources and time required to process CoCa's extensive collection of over 3 million images, we opted not to use this dataset.
 
@@ -374,9 +384,19 @@ As for the training time, there was a noticeable increase in our case compared t
 | FLAN-T5                | small   | Frozen        | Transformer | 90.33         | 17.41         | 7.1              | 184                   | **19**                        |
 | FLAN-T5 (Decoder Only) | small   | Frozen        | Transformer | 93.19         | 18.2          | **6.44**             | **165**                   | **19**                        |
 
-![MLP_transformer_1](https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_1.png)
+<!-- 
+![MLP_transformer_1](https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_1.png?raw=true)
 
-![MLP_transformer_2](https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_2.png)
+![MLP_transformer_2](https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_2.png?raw=true)
+-->
+<div class="row justify-content-sm-center">
+  <div class="col-sm-6 mt-3 mt-md-0">
+    {% include figure.liquid path="https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_1.png?raw=true" title="MLP_transformer_1" class="img-fluid rounded z-depth-1" %}
+  </div>
+  <div class="col-sm-6 mt-3 mt-md-0">
+    {% include figure.liquid path="https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_2.png?raw=true" title="MLP_transformer_2" class="img-fluid rounded z-depth-1" %}
+  </div>
+</div>
 
 When comparing the results for different sizes of the FLAN-T5 decoder with the Transformer Mapper, we observe minimal changes. Furthermore, the SPICE scores consistently favor the FLAN-T5-based models, particularly the Decoder only variants. 
 
@@ -410,7 +430,10 @@ In terms of the CIDEr score, all FLAN-T5 variations outperform the baseline mode
 | FLAN-T5 (Decoder) | large   | Frozen        | Unpooled        | 99.31        | 19.21       | 22.8             | 570                   | 7                         |
 
 
-![image pooled unpooled](https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_2.png)
+<!-- ![image pooled unpooled](https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_2.png?raw=true) -->
+<p align="center">
+    <img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/MLP_transformer_2.png?raw=true" alt="image pooled unpooled" width="450" height="350"/>
+</p>
 
 We observe a trend where the use of unpooled representations enhances the performance of models with finetuned LMs, while it has a negative impact on frozen LM architectures.
 
@@ -429,7 +452,8 @@ Here we perform an ablation study investigating impact of the hidden layer size 
 | FLAN-T5 (Decoder) | 2048                  | 91.22   | **18.08**   | 5.6              | 149                   | 2.624                     |
 | FLAN-T5 (Decoder) | 3840                  | **91.23**   | 18.03   | 6                | 151                   | 4.92                      |
 
-![](https://github.com/dkopi/clipcap-evolved/blob/main/images/scores_hidden_layers.png)
+<!-- ![](https://github.com/dkopi/clipcap-evolved/blob/main/images/scores_hidden_layers.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/scores_hidden_layers.png?raw=true" title="" class="img-fluid rounded z-depth-1" %}
 
 We observe that performance exhibits a sharp increase for hidden layer sizes below 512 indicating their impact on the model's performance. However, once this threshold is surpassed, further increases in hidden layer size result in similar performance levels despite the addition of a substantial number of trainable parameters. From these findings, we can infer that a hidden layer size of 512 would be optimal for this specific use case.
 
@@ -475,18 +499,54 @@ We can observe from the obtained results that the models when trained with LoRA,
 
 We conducted a performance comparison on selected FLAN-T5 architectures with different weights: FLAN-T5 and original T5. To assess this comparison, we have selected the best performing model on the COCO dataset, which is the finetuned FLAN-T5 Decoder only with unpooled representations, and its version with the frozen LM.
 
-![](https://github.com/dkopi/clipcap-evolved/blob/main/images/Flan_flant5.png)
-
-
+<!-- ![](https://github.com/dkopi/clipcap-evolved/blob/main/images/Flan_flant5.png?raw=true) -->
+{% include figure.liquid loading="eager" path="https://github.com/dkopi/clipcap-evolved/blob/main/images/Flan_flant5.png?raw=true" title="" class="img-fluid rounded z-depth-1" %}
 
 It's evident that FLAN-T5 yields better results than T5 version for finetuned and frozen LM, with substantial change when LM is frozen. The analysis of the generated captions can provide explanations on these results.
 
-| Images                      | ![](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_1.png) | ![](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_2.png) | ![](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_3.png) | ![](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_4.png) | ![](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_5.png) |
-|-----------------------|---------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT   | A man on a bike with a backpack. <br/>                            | A girl is eating a piece of cake. <br/>                                                           | A man standing next to a train on the tracks. <br/>                 | A kitchen with a sink, a window and a window. <br/>                 | A group of stacked wooden spoons sitting on a table. <br/>                                |
-| T5 (Decoder Only), base, Unpooled, MLP, No FT      | A man on a bike on a bike. <br/>                                 | A girl girl eating eating a mouth mouth mouth mouth mouth mouth mouth mouth mouth mouth mouth <br/> | A person is standing on a train. <br/>                              | A kitchen with a kitchen with a kitchen and a kitchen. <br/>        | A few few few few few few few few few few few few few few few few few few few few <br/> |
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, FT | A man riding a motorcycle down a dirt road. <br/>                   | A girl is eating a piece of cake with a candle. <br/>                                                | A man standing next to a train on a track. <br/>                    | A kitchen with a stove, sink, and window. <br/>                     | A group of wooden spoons sitting on a wooden table. <br/>                               |
-| T5 (Decoder Only), base, Unpooled, MLP, FT   | A man riding a dirt bike down a dirt road. <br/>                 | A woman is eating a piece of cake. <br/>                                                        | A man standing next to a train on a track. <br/>                     | A kitchen with a sink, microwave, and window. <br/>               | A group of wooden wooden utensils sitting on a wooden table. <br/>                   |
+<table>
+  <tr>
+    <td><b>Images</b></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_1.png?raw=true" alt="Image 1" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_2.png?raw=true" alt="Image 2" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_3.png?raw=true" alt="Image 3" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_4.png?raw=true" alt="Image 4" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_5.png?raw=true" alt="Image 5" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+  </tr>
+  <tr>
+    <td>FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT</td>
+    <td>A man on a bike with a backpack.</td>
+    <td>A girl is eating a piece of cake.</td>
+    <td>A man standing next to a train on the tracks.</td>
+    <td>A kitchen with a sink, a window and a window.</td>
+    <td>A group of stacked wooden spoons sitting on a table.</td>
+  </tr>
+  <tr>
+    <td>T5 (Decoder Only), base, Unpooled, MLP, No FT</td>
+    <td>A man on a bike on a bike.</td>
+    <td>A girl girl eating eating a mouth mouth mouth mouth mouth mouth mouth mouth mouth mouth mouth.</td>
+    <td>A person is standing on a train.</td>
+    <td>A kitchen with a kitchen with a kitchen and a kitchen.</td>
+    <td>A few few few few few few few few few few few few few few few few few few.</td>
+  </tr>
+  <tr>
+    <td>FLAN-T5 (Decoder Only), base, Unpooled, MLP, FT</td>
+    <td>A man riding a motorcycle down a dirt road.</td>
+    <td>A girl is eating a piece of cake with a candle.</td>
+    <td>A man standing next to a train on a track.</td>
+    <td>A kitchen with a stove, sink, and window.</td>
+    <td>A group of wooden spoons sitting on a wooden table.</td>
+  </tr>
+  <tr>
+    <td>T5 (Decoder Only), base, Unpooled, MLP, FT</td>
+    <td>A man riding a dirt bike down a dirt road.</td>
+    <td>A woman is eating a piece of cake.</td>
+    <td>A man standing next to a train on a track.</td>
+    <td>A kitchen with a sink, microwave, and window.</td>
+    <td>A group of wooden wooden utensils sitting on a wooden table.</td>
+  </tr>
+</table>
+
 
 We can see that the model utilizing the frozen T5 produces repetitive and incoherent captions. In the comparison of models with finetuned LM, both models yield captions of similar quality, with the T5 version having only a single repetition for the last picture. However, models with the FLAN-T5 weights outperform its T5 counterpart in both cases.
 
@@ -516,19 +576,112 @@ Using THumb to do the human evaluation on COCO and NOCAPS we define precision (P
 
 ##### COCO
 
-| Images                      | ![coco_1](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_1.png) | ![coco_2](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_2.png) | ![coco_3](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_3.png) | ![coco_4](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_4.png) | ![coco_5](https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_5.png) |
-|-----------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| GPT-2, base, Pooled, MLP, No FT [*Clipcap MLP*]                 | A man riding a motorcycle on a dirt road.<br/> [**4**, 5, 3, 0]                          | A woman is holding a cake with a child in it. <br/>[3, 3, 3, 0]                      | A man is standing on a train with a red train. <br/>[3.5, 3, 4, 0]                   | A kitchen with a stove and a sink. <br/>[4.5, 5, 4, 0]                               | A wooden table with many wooden pieces. <br/>[4, 5, 3, 0]                            |
-| GPT-2, base, Pooled, MLP, FT              | A man riding a motorcycle down a dirt road. <br/>[**4**, 5, 3, 0]                        | A woman is eating a chocolate cake with a candle. <br/>[**4**, 4, 4, 0]                  | A man walking past a train on a train track. <br/>[**4**, 4, 4, 0]                       | A kitchen with a stove, sink, and window. <br/>[**5**, 5, 5, 0]                          | A bunch of wooden bowls and spoons on a table. <br/>[4.5, 5, 4, 0]                   |
-| GPT-2, base, Unpooled, MLP, FT         | A man riding a motorcycle down a dirt road. <br/>[4, 5, 3, 0]                        | A woman eating food from a bowl with a candle. <br/>[**4**, 5, 3, 0]                     | A man standing next to a train on a train track. <br/>[**4**, 4, 4, 0]                   | A kitchen with a sink, stove, and window. <br/>[**5**, 5, 5, 0]                          | A bunch of wooden stools lined up. <br/>[4.5, 5, 4, 0]                               |
-| GPT-2, base, Pooled, Transformer, No FT [*Clipcap Transformer*]               | A man riding a motorcycle on a dirt road. <br/>[**4**, 5, 3, 0]                          | A woman is eating a cake with a cake on it. <br/>[3, 3, 3, 0]                        | A man is walking down a train track. <br/>[**4**, 4, 4, 0]                               | A kitchen with a stove, stove top, and a sink. <br/>[4.5, 5, 5, 0]                   | A row of wooden tools sitting on a table. <br/>[4.5, 5, 4, 0]                        |
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT          | A man on a bike with a backpack. <br/>[3.5, 4, 3, 0]                                 | A girl is eating a piece of cake. <br/>[3.5, 4, 3, 0]                                | A man standing next to a train on the tracks. <br/>[**4**, 4, 4, 0]                      | A kitchen with a sink, a window and a window. <br/>[4, 5, 4, 0]                      | A group of stacked wooden spoons sitting on a table. <br/>[**5**, 5, 5, 0]               |
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, FT       | A man riding a motorcycle down a dirt road. <br/>[**4**, 5, 3, 0]                        | A girl is eating a piece of cake with a candle. <br/>[**4**, 4, 4, 0]                    | A man standing next to a train on a track. <br/>[**4**, 4, 4, 0]                         | A kitchen with a stove, sink, and window. <br/>[**5**, 5, 5, 0]                          | A group of wooden spoons sitting on a wooden table. <br/>[4.5, 5, 4, 0]              |
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT, with LoRA on all layers | A man is riding a bicycle on a dirt path. <br/>[3.5, 4, 3, 0]                        | A woman is eating a cake with a fork. <br/>[3.5, 4, 3, 0]                            | A man standing next to a train on a track. <br/>[**4**, 4, 4, 0]                         | A kitchen with a stove, sink, and window. <br/>[**5**, 5, 5, 0]                          | A group of wooden utensils are lined up. <br/>[4.5, 5, 4, 0]                         |
-| FLAN-T5 (Decoder Only), large, Unpooled, MLP, No FT         | A man riding a motorcycle on a dirt road. <br/>[**4**, 5, 3, 0]                          | A woman eating a cake with a candle in it. <br/>[**4**, 4, 4, 0]                         | A man standing next to a train on a train track. <br/>[**4**, 4, 4, 0]                   | A kitchen with a stove and a sink. <br/>[4.5, 5, 4, 0]                               | A bunch of wooden spoons are stacked on top of each other. <br/>[3.5, 3, 4, 0]       |
-| FLAN-T5 (Decoder Only), small, Unpooled, MLP, No FT         | A man riding a motorcycle on a dirt road. <br/>[**4**, 5, 3, 0]                          | A girl is eating a cake with a bowl of food. <br/>[3, 3, 3, 0]                       | A man is standing next to a train on a train. <br/>[3, 3, 4, 0]                      | A kitchen with a sink, sink, and a window. <br/>[4, 5, 4, 0]                         | A bunch of different types of skateboards are sitting on a table. <br/>[3, 2, 4, 0]  |
-| FLAN-T5 (Decoder Only), small, Unpooled, MLP, FT      | A man riding a motorcycle on a dirt road. <br/>[**4**, 5, 3, 0]                          | A woman is eating a cake with a knife. <br/>[2.5, 2, 3, 0]                           | A man standing next to a train on a track. <br/>[**4**, 4, 4, 0]                         | A kitchen with a sink, stove, and a window. <br/>[**5**, 5, 5, 0]                        | A group of wooden stools with a variety of knives. <br/>[3.5, 3, 4, 0]               |
-| FLAN-T5, base, Pooled, MLP, FT              | A man riding a motorcycle down a dirt road. <br/>[**4**, 5, 3, 0]                        | A woman is cutting a cake with a fork. <br/>[2.5, 2, 3, 0]                           | A train is stopped at a train station. <br/>[3, 3, 3, 0]                             | A kitchen with a stove, oven, and sink. <br/>[**5**, 5, 5, 0]                            | A bunch of wooden spoons are sitting on a table. <br/>[4.5, 5, 4, 0]                 |
+<table>
+  <tr>
+    <td><b>Images</b></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_1.png?raw=true" alt="Image 1" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_2.png?raw=true" alt="Image 2" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_3.png?raw=true" alt="Image 3" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_4.png?raw=true" alt="Image 4" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td><img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/coco_5.png?raw=true" alt="Image 5" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+  </tr>
+  <tr>
+    <td><b>GPT-2, base, Pooled, MLP, No FT [<i>Clipcap MLP</i>]</b></td>
+    <td>A man riding a motorcycle on a dirt road. <br/> [<b>4</b>, 5, 3, 0]</td>
+    <td>A woman is holding a cake with a child in it. <br/>[3, 3, 3, 0]</td>
+    <td>A man is standing on a train with a red train. <br/>[3.5, 3, 4, 0]</td>
+    <td>A kitchen with a stove and a sink. <br/>[4.5, 5, 4, 0]</td>
+    <td>A wooden table with many wooden pieces. <br/>[4, 5, 3, 0]</td>
+  </tr>
+  <tr>
+    <td><b>GPT-2, base, Pooled, MLP, FT</b></td>
+    <td>A man riding a motorcycle down a dirt road. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A woman is eating a chocolate cake with a candle. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A man walking past a train on a train track. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a stove, sink, and window. <br/>[<b>5</b>, 5, 5, 0]</td>
+    <td>A bunch of wooden bowls and spoons on a table. <br/>[4.5, 5, 4, 0]</td>
+  </tr>
+  <tr>
+    <td><b>GPT-2, base, Unpooled, MLP, FT</b></td>
+    <td>A man riding a motorcycle down a dirt road. <br/>[4, 5, 3, 0]</td>
+    <td>A woman eating food from a bowl with a candle. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A man standing next to a train on a train track. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a sink, stove, and window. <br/>[<b>5</b>, 5, 5, 0]</td>
+    <td>A bunch of wooden stools lined up. <br/>[4.5, 5, 4, 0]</td>
+  </tr>
+  <tr>
+    <td><b>GPT-2, base, Pooled, Transformer, No FT [<i>Clipcap Transformer</i>]</b></td>
+    <td>A man riding a motorcycle on a dirt road. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A woman is eating a cake with a cake on it. <br/>[3, 3, 3, 0]</td>
+    <td>A man is walking down a train track. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a stove, stove top, and a sink. <br/>[4.5, 5, 5, 0] </td>
+    <td>A row of wooden tools sitting on a table.<br/> [4.5, 5, 4, 0] </td>
+  </tr>
+  <tr>
+    <td><b>FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT</b></td>
+    <td>A man on a bike with a backpack. <br/>[3.5, 4, 3, 0]</td>
+    <td>A girl is eating a piece of cake. <br/>[3.5, 4, 3, 0]</td>
+    <td>A man standing next to a train on the tracks. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a sink, a window and a window. <br/>[4, 5, 4, 0]</td>
+    <td>A group of stacked wooden spoons sitting on a table. <br/>[<b>5</b>, 5, 5, 0]</td>
+  </tr>
+  <tr>
+    <td><b>FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT</b></td>
+    <td>A man on a bike with a backpack. <br/>[3.5, 4, 3, 0]</td>
+    <td>A girl is eating a piece of cake. <br/>[3.5, 4, 3, 0]</td>
+    <td>A man standing next to a train on the tracks. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a sink, a window and a window. <br/>[4, 5, 4, 0]</td>
+    <td>A group of stacked wooden spoons sitting on a table. <br/>[<b>5</b>, 5, 5, 0]</td>
+  </tr>
+  <tr> 
+    <td><b>FLAN-T5 (Decoder Only), base, Unpooled, MLP, FT</b></td>
+    <td>A man riding a motorcycle down a dirt road. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A girl is eating a piece of cake with a candle. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A man standing next to a train on a track. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a stove, sink, and window. <br/>[<b>5</b>, 5, 5, 0]</td>
+    <td>A group of wooden spoons sitting on a wooden table. <br/>[4.5, 5, 4, 0]</td>
+  </tr>
+  <tr> 
+    <td><b>FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT, with LoRA on all layers</b></td>
+    <td>A man is riding a bicycle on a dirt path. <br/>[3.5, 4, 3, 0]</td>
+    <td>A woman is eating a cake with a fork. <br/>[3.5, 4, 3, 0]</td>
+    <td>A man standing next to a train on a track. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a stove, sink, and window. <br/>[<b>5</b>, 5, 5, 0]</td>
+    <td>A group of wooden utensils are lined up. <br/>[4.5, 5, 4, 0]</td>
+  </tr>
+  <tr>
+    <td><b>FLAN-T5 (Decoder Only), large, Unpooled, MLP, No FT</b></td>
+    <td>A man riding a motorcycle on a dirt road. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A woman eating a cake with a candle in it. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A man standing next to a train on a train track. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a stove and a sink. <br/>[4.5, 5, 4, 0]</td>
+    <td>A bunch of wooden spoons are stacked on top of each other. <br/>[3.5, 3, 4, 0]</td>
+  </tr>
+  <tr> 
+    <td><b>FLAN-T5 (Decoder Only), small, Unpooled, MLP, No FT</b></td>
+    <td>A man riding a motorcycle on a dirt road. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A girl is eating a cake with a bowl of food. <br/>[3, 3, 3, 0]</td>
+    <td>A man is standing next to a train on a train. <br/>[3, 3, 4, 0]</td>
+    <td>A kitchen with a sink, sink, and a window. <br/>[4, 5, 4, 0]</td>
+    <td>A bunch of different types of skateboards are sitting on a table. <br/>[3, 2, 4, 0]</td>
+  </tr>
+  <tr>
+    <td><b>FLAN-T5 (Decoder Only), small, Unpooled, MLP, FT</b></td>
+    <td>A man riding a motorcycle down a dirt road. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A woman is eating a cake with a knife. <br/>[2.5, 2, 3, 0]</td>
+    <td>A man standing next to a train on a track. <br/>[<b>4</b>, 4, 4, 0]</td>
+    <td>A kitchen with a sink, stove, and a window. <br/>[<b>5</b>, 5, 5, 0]</td>
+    <td>A group of wooden stools with a variety of knives. <br/>[3.5, 3, 4, 0]</td>
+  </tr>
+  <tr>
+    <td><b>FLAN-T5, base, Pooled, MLP, FT</b></td>
+    <td>A man riding a motorcycle down a dirt road. <br/>[<b>4</b>, 5, 3, 0]</td>
+    <td>A woman is cutting a cake with a fork. <br/>[2.5, 2, 3, 0]</td>
+    <td>A train is stopped at a train station. <br/>[3, 3, 3, 0]</td>
+    <td>A kitchen with a stove, oven, and sink. <br/>[<b>5</b>, 5, 5, 0]</td>
+    <td>A bunch of wooden spoons are sitting on a table. <br/>[4.5, 5, 4, 0]</td>
+  </tr>
+</table>
 
 The FLAN-T5 (Decoder Only) model variations, utilizing unpooled representations and an MLP mapper consistently achieve the highest scores on the COCO dataset, exhibiting slightly more precise captions. These models, along with the rest of the models, yield excellent results on the COCO dataset. The observed performance aligns well with the CIDEr and SPICE scores.
 
@@ -536,19 +689,25 @@ The FLAN-T5 (Decoder Only) model variations, utilizing unpooled representations 
 ##### Nocaps
 
 
-| Images                      | *In domain* ![nocaps_1](https://github.com/dkopi/clipcap-evolved/blob/main/images/nocaps_1.jpg)             | *Near-domain*  ![nocaps_2](https://github.com/dkopi/clipcap-evolved/blob/main/images/nocaps_2.jpg)          | *Out-domain* ![nocaps_3](https://github.com/dkopi/clipcap-evolved/blob/main/images/nocaps_3.jpg)              |
-|-----------------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| GPT-2, base, Pooled, MLP, No FT  [*Clipcap MLP*]                 | A boy standing in front of a wooden bench. <br/>[4, 4, 4, 0]                    | A man riding on a elephant with a man on top. <br/>[1.5, 2, 2, -0.5]         | A coffee and a bottle of soda on a table. <br/>[3.5, 4, 3, 0]                    |
-| GPT-2, base, Pooled, MLP, FT              | A young boy standing next to a parked motorcycle. <br/>[3.5, 3, 4,0 ]           | A man riding on the back of an elephant. <br/>[2, 2, 2, 0]                    | A table topped with a cup of coffee and a box of ice cream. <br/>[2.5, 2, 3, 0]  |
-| GPT-2, base, Unpooled, MLP, FT         | A little boy standing on a sidewalk holding a toothbrush. <br/>[3, 2, 4, 0]     | A man riding on the back of an elephant. <br/>[2, 2, 2, 0]                    | A table topped with a bag of drinks and a bag of snacks. <br/>[3.5, 4, 3, 0]     |
-| GPT-2, base, Pooled, Transformer, No FT [*Clipcap Transformer*]               | A young boy is standing in a wooden bench. <br/>[3.5, 4, 4, -0.5]              | A man riding on top of an elephant with a man on top. <br/>[1.5, 2, 2, -0.5] | A table with a bunch of drinks and a cup of coffee. <br/>[3, 3, 3, 0]            |
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT          | A little boy is standing on a sidewalk. <br/>[4, 4, 4, 0]                       | An elephant with a man on it's back. <br/>[**2.5**, 3, 2, 0]                      | A bunch of sodas and a mug of beer. <br/>[3, 3, 3, ]                            |
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, FT       | A young boy standing on a sidewalk holding a tennis racket. <br/>[3.5, 3, 4, 0] | A man riding on the back of an elephant. <br/>[2, 2, 2, 0]                    | A table topped with a cup of coffee and a soda. <br/>[3, 3, 3, 0]                |
-| FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT, with LoRA on all layers | A little boy is standing in the street. <br/>[**4.5**, 5, 4, 0]                     | A man riding an elephant on a dirt road. <br/>[**2.5**, 3, 2, 0]                  | A variety of different types of drinks are on a table. <br/>[**4.5**, 5, 4, 0]       |
-| FLAN-T5 (Decoder Only), large, Unpooled, MLP, No FT         | A young child standing on a sidewalk with a hat. <br/>[3.5, 3, 4, 0]            | A man is riding on top of an elephant. <br/>[2, 2, 2, 0]                      | A can of soda and a bottle of a cola. <br/>[3, 3, 3, 0]                          |
-| FLAN-T5 (Decoder Only), small, Unpooled, MLP, No FT         | A little boy in a shirt and a shirt. <br/>[4, 5, 4, -0.5]                      | A large elephant with a tusk on its back. <br/>[**2.5**, 3, 2, 0]                 | A group of various types of food and drinks. <br/>[4, 5, 3, 0]                   |
-| FLAN-T5 (Decoder Only), small, Unpooled, MLP, FT      | A young boy is standing on the sidewalk. <br/>[4, 4, 4, 0]                      | A man riding on the back of an elephant. <br/>[2, 2, 2, 0]                    | A bunch of drinks and a bottle of Coca Cola. <br/>[3, 3, 3, 0]                   |
-| FLAN-T5, base, Pooled, MLP, FT              | A young boy wearing a tie and a hat. <br/>[3, 2, 4, 0]                                     | A man riding an elephant on a dirt road. <br/>[2, 2, 2, 0]                    | A table with a cup of coffee, a drink and a bottle of water. <br/>[2.5, 2, 3, 0] |
+<table>
+<tr>
+    <td><b>Images</b></td>
+    <td> <b>In domain</b> <img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/nocaps_1.jpg?raw=true" alt="Image 1" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td> <b>Near-domain</b> <img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/nocaps_2.jpg?raw=true" alt="Image 2" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+    <td> <b>Out-domain</b> <img src="https://github.com/dkopi/clipcap-evolved/blob/main/images/nocaps_3.jpg?raw=true" alt="Image 3" class="img-fluid rounded z-depth-1" style="width: 200px;"></td>
+  </tr>
+<tr><td>GPT-2, base, Pooled, MLP, No FT  [<i>Clipcap MLP</i>]</td><td>A boy standing in front of a wooden bench. <br/>[4, 4, 4, 0]</td><td>A man riding on a elephant with a man on top. <br/>[1.5, 2, 2, -0.5]</td><td>A coffee and a bottle of soda on a table. <br/>[3.5, 4, 3, 0]</td><td></td></tr>
+<tr><td>GPT-2, base, Pooled, MLP, FT</td><td>A young boy standing next to a parked motorcycle. <br/>[3.5, 3, 4,0 ]</td><td>A man riding on the back of an elephant. <br/>[2, 2, 2, 0]</td><td>A table topped with a cup of coffee and a box of ice cream. <br/>[2.5, 2, 3, 0]</td><td></td></tr>
+<tr><td>GPT-2, base, Unpooled, MLP, FT</td><td>A little boy standing on a sidewalk holding a toothbrush. <br/>[3, 2, 4, 0]</td><td>A man riding on the back of an elephant. <br/>[2, 2, 2, 0]</td><td>A table topped with a bag of drinks and a bag of snacks. <br/>[3.5, 4, 3, 0]</td><td></td></tr>
+<tr><td>GPT-2, base, Pooled, Transformer, No FT [<i>Clipcap Transformer</i>]</td><td>A young boy is standing in a wooden bench. <br/>[3.5, 4, 4, -0.5]</td><td>A man riding on top of an elephant with a man on top. <br/>[1.5, 2, 2, -0.5]</td><td>A table with a bunch of drinks and a cup of coffee. <br/>[3, 3, 3, 0]</td><td></td></tr>
+<tr><td>FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT</td><td>A little boy is standing on a sidewalk. <br/>[4, 4, 4, 0]</td><td>An elephant with a man on it's back. <br/>[<b>2.5</b>, 3, 2, 0]</td><td>A bunch of sodas and a mug of beer. <br/>[3, 3, 3, ]</td><td></td></tr>
+<tr><td>FLAN-T5 (Decoder Only), base, Unpooled, MLP, FT</td><td>A young boy standing on a sidewalk holding a tennis racket. <br/>[3.5, 3, 4, 0]</td><td>A man riding on the back of an elephant. <br/>[2, 2, 2, 0]</td><td>A table topped with a cup of coffee and a soda. <br/>[3, 3, 3, 0]</td><td></td></tr>
+<tr><td>FLAN-T5 (Decoder Only), base, Unpooled, MLP, No FT, with LoRA on all layers</td><td>A little boy is standing in the street. <br/>[<b>4.5</b>, 5, 4, 0]</td><td>A man riding an elephant on a dirt road. <br/>[<b>2.5</b>, 3, 2, 0]</td><td>A variety of different types of drinks are on a table. <br/>[<b>4.5</b>, 5, 4, 0]</td><td></td></tr>
+<tr><td>FLAN-T5 (Decoder Only), large, Unpooled, MLP, No FT</td><td>A young child standing on a sidewalk with a hat. <br/>[3.5, 3, 4, 0]</td><td>A man is riding on top of an elephant. <br/>[2, 2, 2, 0]</td><td>A can of soda and a bottle of a cola. <br/>[3, 3, 3, 0]</td><td></td></tr>
+<tr><td>FLAN-T5 (Decoder Only), small, Unpooled, MLP, No FT</td><td>A little boy in a shirt and a shirt. <br/>[4, 5, 4, -0.5]</td><td>A large elephant with a tusk on its back. <br/>[<b>2.5</b>, 3, 2, 0]</td><td>A group of various types of food and drinks. <br/>[4, 5, 3, 0]</td><td></td></tr>
+<tr><td>FLAN-T5 (Decoder Only), small, Unpooled, MLP, FT</td><td>A young boy is standing on the sidewalk. <br/>[4, 4, 4, 0]</td><td>A man riding on the back of an elephant. <br/>[2, 2, 2, 0]</td><td>A bunch of drinks and a bottle of Coca Cola. <br/>[3, 3, 3, 0]</td><td></td></tr>
+<tr><td>FLAN-T5, base, Pooled, MLP, FT</td><td>A young boy wearing a tie and a hat. <br/>[3, 2, 4, 0]</td><td>A man riding an elephant on a dirt road. <br/>[2, 2, 2, 0]</td><td>A table with a cup of coffee, a drink and a bottle of water. <br/>[2.5, 2, 3, 0]</td><td></td></tr>
+</table>
 
 The FLAN-T5 decoder model (base), utilizing unpooled representations, an MLP mapper and applying LoRA across all layers, consistently performed best across the provided domains. Its captions exhibited higher consistency, richness, and level of detail. Moreover, it achieved the highest scores for "in-domain", "near-domain" and "out-of-domain" images, indicating its strong generalization capabilities beyond the specific training domain while still being very good at trained tasks. This model's ability to generate accurate descriptions across various domains (not limited to "in-domain" images) highlights its versatility and adaptability.
 

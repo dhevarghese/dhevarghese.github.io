@@ -3,7 +3,7 @@ layout: distill
 title: ClipCap Evolved
 description: Bridging the Gap Between Modalities
 tags: Visual-Language-Models
-giscus_comments: true
+giscus_comments: false
 date: 2023-03-28
 featured: false
 citation: true

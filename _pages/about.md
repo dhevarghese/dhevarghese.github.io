@@ -16,7 +16,7 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-I'm currently being supervised by [Yuki Asano](https://scholar.google.co.uk/citations?user=CdpLhlgAAAAJ&hl=en) and [Mohammad Mahdi Derakhshani](https://scholar.google.com/citations?user=n7GnOJoAAAAJ&hl=en) at the [VIS lab](https://ivi.fnwi.uva.nl/vislab/). The topic of my research is curriculum learning in Visual Language Models. 
+The current topic of my research is curriculum learning in Visual Language Models. I'm being supervised by [Yuki Asano](https://scholar.google.co.uk/citations?user=CdpLhlgAAAAJ&hl=en) and [Mohammad Mahdi Derakhshani](https://scholar.google.com/citations?user=n7GnOJoAAAAJ&hl=en) at the [VIS lab](https://ivi.fnwi.uva.nl/vislab/).  
 
 Lately, I've been brainstorming ideas to improve the data efficiency of transformers. Also, I find the hippocampus very interesting 🧐
 

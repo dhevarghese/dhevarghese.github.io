@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: AI Msc Student, Vrije University
+subtitle: AI Researcher, VIS Lab
 
 profile:
   align: right
@@ -16,9 +16,9 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-The current topic of my research is curriculum learning in Visual Language Models. I'm being supervised by [Yuki Asano](https://scholar.google.co.uk/citations?user=CdpLhlgAAAAJ&hl=en) and [Mohammad Mahdi Derakhshani](https://scholar.google.com/citations?user=n7GnOJoAAAAJ&hl=en) at the [VIS lab](https://ivi.fnwi.uva.nl/vislab/).  
+I'm currently working on combining discrete diffusion and autoregression for multilingual multimodal models with [Mohammad Mahdi Derakhshani](https://scholar.google.com/citations?user=n7GnOJoAAAAJ&hl=en) and [Cees Sneok](https://scholar.google.nl/citations?user=0uKdbscAAAAJ&hl=en) at the [VIS lab](https://ivi.fnwi.uva.nl/vislab/). Previously, for my thesis, I explored curriculum learning in Visual Language Models, supervised by [Yuki Asano](https://scholar.google.co.uk/citations?user=CdpLhlgAAAAJ&hl=en).
 
-Lately, I've been brainstorming ideas to improve the data efficiency of transformers. Also, I find the hippocampus very interesting 🧐
+My experience with multimodality has made me curious to explore a few roads to improve efficiency in current models. I'd love to explore _'Long context adaptation'_ as a means to bring test and train closer; briding the gap and reducing the computational overhead of transformers. Also, I find hippocampal-cortical interactions very interesting 🧐
 
 [//]: # Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
 [//]: # <p>555 your office number</p>

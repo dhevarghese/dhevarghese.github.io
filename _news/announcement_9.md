@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-[Presented NeoBabel](https://labscommunity.cohere.com/get-started/connect-conference) on Day 2 of the Cohere Connect Conference ⚡
+Presented NeoBabel on Day 2 of the [Cohere Connect Conference]((https://labscommunity.cohere.com/get-started/connect-conference)) ⚡

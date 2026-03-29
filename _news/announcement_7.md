@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Served as a reviewer for the [ICCV LIMIT Workshop 2025](https://iccv2025-limit-workshop.limitlab.xyz/).
+Served as a reviewer for the [ICCV 2025 LIMIT Workshop](https://iccv2025-limit-workshop.limitlab.xyz/).

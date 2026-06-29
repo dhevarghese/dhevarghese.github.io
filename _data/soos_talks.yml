@@ -1,0 +1,104 @@
+# Curated Soos talk archive. Re-run bin/process_soos_talks.py to regenerate
+# thumbnails after adding decks to _source/soos-talks/, then update metadata here.
+
+talks:
+  - date: 2026-06-02
+    speaker: "Danilo de Goede"
+    topic: "Semantic Steerability for Adaptive-Length Image Tokenization"
+    thumbnail: assets/img/soos_talks/undated-danilodegoede-semantic-tokenizer.png
+    slides_url: assets/pdf/soos_talks/undated-danilodegoede-semantic-tokenizer.pdf
+
+  - date: 2026-06-02
+    speaker: "Christoforos Spartalis"
+    topic: "Model Correction with Machine Unlearning"
+    thumbnail: assets/img/soos_talks/undated-christoforos-spartalis-unlearning-june26.png
+    slides_url: assets/pdf/soos_talks/undated-christoforos-spartalis-unlearning-june26.pdf
+
+  - date: 2026-05-19
+    speaker: "Gowreesh Mago"
+    topic: "Abstract Concept Understanding in the Era of Foundation Models"
+    thumbnail: assets/img/soos_talks/2026-05-19-gowreesh.png
+
+  - date: 2026-05-19
+    speaker: "Swasti Mishra"
+    topic: "Hyperbolic Learning for Robust Medical Image Segmentation"
+    thumbnail: assets/img/soos_talks/2026-05-19-swasti-mishra.jpg
+
+  - date: 2026-04-21
+    speaker: "Max van Spengler"
+    topic: "HyperHELM: Hierarchy-aligned Language Modeling for mRNA Sequences"
+    thumbnail: assets/img/soos_talks/2026-04-21-max.png
+
+  - date: 2026-04-21
+    speaker: "Christian Gumbsch"
+    topic: "Rewards from Vision-Language Models for Robot Learning"
+    thumbnail: assets/img/soos_talks/undated-foundationrewards.png
+
+  - date: 2026-04-07
+    speaker: "Dimitris Karageorgiou"
+    topic: "Learning to Detect… to Generate Visual Content"
+    thumbnail: assets/img/soos_talks/undated-dimitris-karageorgiou-learning-to-detect-to-generate-visual-content-7th-.png
+    slides_url: assets/pdf/soos_talks/undated-dimitris-karageorgiou-learning-to-detect-to-generate-visual-content-7th-.pdf
+
+  - date: 2026-04-07
+    speaker: "Alex Cherniavskii"
+    topic: "Context-Weighted Discrete Flow Matching"
+    thumbnail: assets/img/soos_talks/undated-cherniavskii.png
+    slides_url: assets/pdf/soos_talks/undated-cherniavskii.pdf
+
+  - date: 2026-03-10
+    speaker: "Leonard Barcellona"
+    topic: "Physics Grounded World Models for VLAs"
+    thumbnail: assets/img/soos_talks/undated-leonard-barcellona.png
+
+  - date: 2026-03-10
+    speaker: "Mohammadreza Salehi"
+    topic: "RFDM: Residual Flow Diffusion Model for Efficient Causal Video Editing"
+    thumbnail: assets/img/soos_talks/undated-cvpr26.png
+    slides_url: assets/pdf/soos_talks/undated-cvpr26.pdf
+
+  - date: 2026-02-24
+    speaker: "Walter Simoncini"
+    topic: "Elastic ViTs from Pretrained Models without Retraining"
+    thumbnail: assets/img/soos_talks/undated-w-simoncini.png
+    slides_url: assets/pdf/soos_talks/undated-w-simoncini.pdf
+
+  - date: 2026-02-10
+    speaker: "Stefanos Achlatis"
+    topic: "From Deep Learning in Radiotherapy Treatment Planning Towards an Agentic Radiotherapist"
+    thumbnail: assets/img/soos_talks/2026-02-10-stefanos.png
+
+  - date: 2026-01-27
+    speaker: "Riccardo Valperga"
+    topic: "In-Context Imitation Learning with E2E-TTT"
+    thumbnail: assets/img/soos_talks/undated-riccardo-valperga-soos.png
+    slides_url: assets/pdf/soos_talks/undated-riccardo-valperga-soos.pdf
+
+  - date: 2025-12-09
+    speaker: "Christina Sartzetaki"
+    topic: "Models vs. Brains in Video Understanding"
+    thumbnail: assets/img/soos_talks/2025-12-09-christina-sartzetaki.png
+
+  - date: 2025-12-09
+    speaker: "Samuele Papa"
+    topic: "Best Practices in AI Research"
+    thumbnail: assets/img/soos_talks/2025-12-09-samuele-papa.png
+    slides_url: assets/pdf/soos_talks/2025-12-09-samuele-papa.pdf
+
+  - date: 2025-11-18
+    speaker: "Wenfang Sun"
+    topic: "RegionReasoner: Region-Grounded Multi-Round Visual Reasoning"
+    thumbnail: assets/img/soos_talks/undated-wenfang.png
+    slides_url: assets/pdf/soos_talks/undated-wenfang.pdf
+
+  - date: 2025-10-07
+    speaker: "Dheeraj Varghese"
+    topic: "NeoBabel: A Multilingual Open Foundation Model for Visual Generation"
+    thumbnail: assets/img/soos_talks/2025-10-07-dheeraj-varghese.png
+    slides_url: assets/pdf/soos_talks/2025-10-07-dheeraj-varghese.pdf
+
+  - date: 2025-10-07
+    speaker: "Emile van Krieken"
+    topic: "Instructions: Learning Concepts with Data and Background Knowledge"
+    thumbnail: assets/img/soos_talks/2025-10-07-emile-van-krieken.png
+    slides_url: assets/pdf/soos_talks/2025-10-07-emile-van-krieken.pdf

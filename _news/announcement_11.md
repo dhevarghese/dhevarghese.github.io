@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Served as a reviewer for the [ICLR 2026 Multimodal Intelligence Workshop](https://mmintelligence.github.io/).
+Served as a reviewer for the [ICLR 2026 Multimodal Intelligence Workshop](https://mmintelligence.github.io/) 📝

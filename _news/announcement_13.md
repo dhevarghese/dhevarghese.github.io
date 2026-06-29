@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Served as a Teaching Assistant for the [UvA Foundation Models course](https://uvafomo.github.io/) (March 31 – June 15, 2026) 👨‍🏫
+Teaching Assistant for the [UvA Foundation Models course](https://uvafomo.github.io/) 👨‍🏫

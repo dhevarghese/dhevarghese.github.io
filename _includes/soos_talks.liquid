@@ -1,0 +1,41 @@
+<div class="soos-talks mt-4">
+  {% assign talks = site.data.soos_talks.talks | sort: 'date' | reverse %}
+
+  {% if talks.size > 0 %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+      {% for talk in talks %}
+        <div class="col">
+          <div class="card h-100">
+            {% if talk.thumbnail %}
+              <img
+                src="{{ talk.thumbnail | relative_url }}"
+                alt="{{ talk.topic }}"
+                class="card-img-top"
+                loading="lazy"
+              >
+            {% endif %}
+
+            <div class="card-body d-flex flex-column">
+              {% comment %} Title is on the title slide; re-enable if cards need a text heading. {% endcomment %}
+              {% comment %}<h5 class="card-title">{{ talk.topic }}</h5>{% endcomment %}
+              <p class="card-text text-muted mb-2">{{ talk.speaker }}</p>
+              <p class="card-text mt-auto mb-0">
+                <small class="text-muted">{{ talk.date | date: '%b %d, %Y' }}</small>
+              </p>
+              {% comment %} Re-enable when speakers grant permission to share full slides. {% endcomment %}
+              {% comment %}
+              {% if talk.slides_url %}
+                <a href="{{ talk.slides_url }}" class="btn btn-sm btn-outline-primary mt-3" target="_blank" rel="noopener noreferrer">
+                  View slides
+                </a>
+              {% endif %}
+              {% endcomment %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">Talk archive coming soon — entries are being added from this year’s series.</p>
+  {% endif %}
+</div>

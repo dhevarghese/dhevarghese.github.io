@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Attended the [8th International Summer School on Artificial Intelligence and Games](https://school.gameaibook.org/) in Leiden (June 15–19, 2026).
+Attended the [8th International Summer School on Artificial Intelligence and Games](https://school.gameaibook.org/) 🕹️
